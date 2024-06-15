@@ -1,0 +1,3 @@
+tqdm==4.66.4
+requests==2.32.3
+kaggle==1.6.14
