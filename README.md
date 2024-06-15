@@ -4,3 +4,12 @@ This repository contains a deep learning-based solution for the classification o
 ## Dataset
 The dataset used in this project is the RSNA Pneumonia Detection Challenge dataset from Kaggle. It includes a comprehensive collection of de-identified chest radiographs from pediatric patients, annotated with bounding boxes indicating lung opacities associated with pneumonia. The dataset is divided into training, validation, and test sets, providing a solid foundation for training and evaluating machine learning models for pneumonia detection. For more information, visit the RSNA Pneumonia Detection Challenge on Kaggle.
 
+### Downloading the dataset
+```bash
+kaggle competitions download -c rsna-pneumonia-detection-challenge
+```
+
+### Unzipping the dataset
+```bash
+unzip rsna-pneumonia-detection-challenge.zip
+```
