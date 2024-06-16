@@ -10,6 +10,10 @@ kaggle competitions download -c rsna-pneumonia-detection-challenge
 ```
 
 ### Unzipping the dataset
+
 ```bash
-unzip rsna-pneumonia-detection-challenge.zip
+mkdir -p data
+unzip rsna-pneumonia-detection-challenge.zip -d data
+rm rsna-pneumonia-detection-challenge.zip
+echo "Dataset downloaded and unzipped into the 'data' folder."
 ```
