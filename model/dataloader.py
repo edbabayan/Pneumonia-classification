@@ -28,3 +28,16 @@ valid_transform = transforms.Compose([
     transforms.Normalize(mean=processed_mean, std=processed_std),
 ])
 
+train_dataset = torchvision.datasets.DatasetFolder(CFG.processed_data.joinpath('train'), loader=load_file,
+                                                   extensions='npy', transform=train_transform)
+valid_dataset = torchvision.datasets.DatasetFolder(CFG.processed_data.joinpath('valid'), loader=load_file,
+                                                   extensions='npy', transform=valid_transform)
+
+batch_size = 32
+num_workers = 4
+
+train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size,
+                                           shuffle=True, num_workers=num_workers)
+valid_loader = torch.utils.data.DataLoader(valid_dataset, batch_size=batch_size,
+                                           shuffle=False, num_workers=num_workers)
+
