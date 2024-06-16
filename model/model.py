@@ -1,10 +1,7 @@
-from typing import Any
-
 import torch
 import torchvision
 import torchmetrics
 import pytorch_lightning as pl
-from pytorch_lightning.utilities.types import STEP_OUTPUT
 
 
 class PneumoniaModel(pl.LightningModule):
@@ -54,8 +51,3 @@ class PneumoniaModel(pl.LightningModule):
 
     def configure_optimizers(self):
         return [self.optimizer]
-
-
-if __name__ == '__main__':
-    model = PneumoniaModel()
-    print('Model created successfully')
