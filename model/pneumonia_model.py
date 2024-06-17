@@ -7,12 +7,12 @@ import pytorch_lightning as pl
 class PneumoniaModel(pl.LightningModule):
     def __init__(self):
         super(PneumoniaModel, self).__init__()
-        self.model = torchvision.models.resnet18(pretrained=True)
+        self.model = torchvision.models.resnet18()
         self.model.conv1 = torch.nn.Conv2d(1, 64, kernel_size=(7, 7), stride=(2, 2), padding=(3, 3), bias=False)
         self.model.fc = torch.nn.Linear(512, 1, bias=True)
 
-        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=0.001)
-        self.loss_fn = torch.nn.BCEWithLogitsLoss(pos_weight=torch.tensor([3]))
+        self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-4)
+        self.loss_fn = torch.nn.BCEWithLogitsLoss(pos_weight=torch.tensor([1]))
 
         self.train_acc = torchmetrics.Accuracy(task='binary')
         self.val_acc = torchmetrics.Accuracy(task='binary')
