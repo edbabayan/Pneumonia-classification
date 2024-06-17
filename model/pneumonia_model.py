@@ -32,7 +32,7 @@ class PneumoniaModel(pl.LightningModule):
                  on_step=True, on_epoch=True)
         return loss
 
-    def training_epoch_end(self, outputs):
+    def on_train_epoch_end(self):
         self.log("Train accuracy", self.train_acc.compute())
 
     def validation_step(self, batch, batch_idx):
@@ -46,7 +46,7 @@ class PneumoniaModel(pl.LightningModule):
                  on_step=True, on_epoch=True)
         return loss
 
-    def validation_epoch_end(self, outputs):
+    def on_validation_epoch_end(self):
         self.log("Val accuracy", self.val_acc.compute())
 
     def configure_optimizers(self):
