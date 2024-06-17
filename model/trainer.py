@@ -14,7 +14,7 @@ class PneumoniaModelTrainer:
     def __init__(self):
         self.checkpoints_path = CFG.checkpoints
         self.logs_path = CFG.logs
-        self.max_epochs = 35
+        self.max_epochs = 50
         self.device = CFG.device
         self.preprocess_config = preprocess_config
 
@@ -24,8 +24,8 @@ class PneumoniaModelTrainer:
 
     def get_trainer(self):
         checkpoint_callback = ModelCheckpoint(
-            monitor='Val accuracy',
-            save_top_k=10,
+            monitor='Val f1 score',
+            save_top_k=5,
             mode='max',
             dirpath=self.checkpoints_path
         )
@@ -50,13 +50,13 @@ class PneumoniaModelTrainer:
         self.setup_directories()
         trainer = self.get_trainer()
         mean, std = self.preprocess_data()
-        train_loader, val_loader = self.prepare_data_loaders(mean, std)
+        train_loader, val_loader = self.prepare_data_loaders(mean=mean, std=std)
 
         model = PneumoniaModel()
         trainer.fit(model=model, train_dataloaders=train_loader, val_dataloaders=val_loader)
 
     @staticmethod
-    def prepare_data_loaders(mean, std):
+    def prepare_data_loaders(mean=0.5, std=0.5):
         return DataLoaderPreparer(mean=mean, std=std).postprocess()
 
 
