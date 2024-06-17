@@ -48,7 +48,7 @@ class DataLoaderPreparer:
                                                                 loader=self.load_file,
                                                                 extensions=('npy',), transform=self.valid_transform)
 
-    def prepare_dataloaders(self, batch_size=32, num_workers=4):
+    def prepare_dataloaders(self, batch_size=64, num_workers=4):
         self.train_loader = torch.utils.data.DataLoader(self.train_dataset, batch_size=batch_size,
                                                         shuffle=True, num_workers=num_workers)
         self.valid_loader = torch.utils.data.DataLoader(self.valid_dataset, batch_size=batch_size,
