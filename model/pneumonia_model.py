@@ -14,8 +14,8 @@ class PneumoniaModel(pl.LightningModule):
         self.optimizer = torch.optim.Adam(self.model.parameters(), lr=1e-4)
         self.loss_fn = torch.nn.BCEWithLogitsLoss(pos_weight=torch.tensor([1]))
 
-        self.train_acc = torchmetrics.Accuracy(task='binary')
-        self.val_acc = torchmetrics.Accuracy(task='binary')
+        self.train_f1 = torchmetrics.F1Score(task='binary')
+        self.val_f1 = torchmetrics.F1Score(task='binary')
 
     def forward(self, data):
         pred = self.model(data)
@@ -27,13 +27,12 @@ class PneumoniaModel(pl.LightningModule):
         pred = self(x_ray)[:, 0]
         loss = self.loss_fn(pred, label)
 
-        self.log("Train loss", loss, on_step=True, on_epoch=True)
-        self.log("Train accuracy", self.train_acc(torch.sigmoid(pred), label.int()),
-                 on_step=True, on_epoch=True)
+        self.log("Train Loss", loss)
+        self.log("Train f1 score", self.train_f1(torch.sigmoid(pred), label.int()))
         return loss
 
     def on_train_epoch_end(self):
-        self.log("Train accuracy", self.train_acc.compute())
+        self.log("Train f1 score", self.train_f1.compute())
 
     def validation_step(self, batch, batch_idx):
         x_ray, label = batch
@@ -41,13 +40,12 @@ class PneumoniaModel(pl.LightningModule):
         pred = self(x_ray)[:, 0]
         loss = self.loss_fn(pred, label)
 
-        self.log("Val loss", loss, on_step=True, on_epoch=True)
-        self.log("Val accuracy", self.val_acc(torch.sigmoid(pred), label.int()),
-                 on_step=True, on_epoch=True)
+        self.log("Val loss", loss)
+        self.log("Val f1 score", self.val_f1(torch.sigmoid(pred), label.int()))
         return loss
 
     def on_validation_epoch_end(self):
-        self.log("Val accuracy", self.val_acc.compute())
+        self.log("Val f1 score", self.val_f1.compute())
 
     def configure_optimizers(self):
         return [self.optimizer]
