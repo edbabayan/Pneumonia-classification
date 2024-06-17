@@ -12,5 +12,5 @@ class CFG:
     checkpoints = root.joinpath('checkpoints')
     processed_data = root.joinpath('processed')
     logs = root.joinpath('logs')
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    image_size = 256
+
+    model_weights = checkpoints.joinpath('epoch=44-step=33750.ckpt')
