@@ -44,9 +44,10 @@ class DataLoaderPreparer:
         self.train_dataset = torchvision.datasets.DatasetFolder(CFG.processed_data.joinpath('train'),
                                                                 loader=self.load_file,
                                                                 extensions=('npy',), transform=self.train_transform)
-        self.valid_dataset = torchvision.datasets.DatasetFolder(CFG.processed_data.joinpath('valid'),
+        self.valid_dataset = torchvision.datasets.DatasetFolder(CFG.processed_data.joinpath('val'),
                                                                 loader=self.load_file,
                                                                 extensions=('npy',), transform=self.valid_transform)
+        return self.train_dataset, self.valid_dataset
 
     def prepare_dataloaders(self, batch_size=64, num_workers=4):
         self.train_loader = torch.utils.data.DataLoader(self.train_dataset, batch_size=batch_size,
