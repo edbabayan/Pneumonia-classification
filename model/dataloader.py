@@ -25,16 +25,17 @@ class DataLoaderPreparer:
         return train_dataloader, valid_dataloader
 
     def data_transformer(self):
-        self.train_transform = transforms.Compose([
+        train_transform = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize(mean=self.processed_mean, std=self.processed_std),
             transforms.RandomAffine(degrees=(-5, 5), translate=(0, 0.5), scale=(0.9, 1.1)),
             transforms.RandomResizedCrop((CFG.image_size, CFG.image_size), scale=(0.35, 1))
         ])
-        self.valid_transform = transforms.Compose([
+        valid_transform = transforms.Compose([
             transforms.ToTensor(),
             transforms.Normalize(mean=self.processed_mean, std=self.processed_std),
         ])
+        return train_transform, valid_transform
 
     @staticmethod
     def load_file(path):
