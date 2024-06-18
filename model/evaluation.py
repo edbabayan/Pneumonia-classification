@@ -8,7 +8,10 @@ from model.pneumonia_model import PneumoniaModel
 
 model = PneumoniaModel.load_from_checkpoint(CFG.model_weights, strict=False)
 model.eval()
-_, val_dataset = DataLoaderPreparer().prepare_datasets()
+
+train_transforms, valid_transforms = DataLoaderPreparer().data_transformer()
+
+_, val_dataset = DataLoaderPreparer().prepare_datasets(train_transforms, valid_transforms, CFG.processed_data)
 
 preds = []
 labels = []
