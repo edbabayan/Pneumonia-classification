@@ -60,6 +60,6 @@ class DataLoaderPreparer:
 
 
 if __name__ == '__main__':
-    data_loader = DataLoaderPreparer()
-    train_loader, valid_loader = data_loader.postprocess()
+    data_loader = DataLoaderPreparer(batch_size=CFG.batch_size, num_workers=CFG.num_workers)
+    train_loader, valid_loader = data_loader.postprocess(data_path=CFG.processed_data)
     print('DataLoader prepared successfully')
