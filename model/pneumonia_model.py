@@ -78,9 +78,10 @@ class PneumoniaModel(pl.LightningModule):
         image = self.transform(image).unsqueeze(0).to(self.device)
         self.model.eval()
         with torch.no_grad():
-            pred = self(image)
+            pred = self.model(image)
             pred = torch.sigmoid(pred).item()
-        return pred
+            pred_label = 1 if pred >= 0.5 else 0
+        return pred_label
 
 
 if __name__ == '__main__':
