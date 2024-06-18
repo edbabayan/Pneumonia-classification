@@ -16,10 +16,11 @@ class DataLoaderPreparer:
         self.processed_std = std
         self.data_transformer()
 
-    def postprocess(self):
-        self.data_transformer()
-        self.prepare_datasets()
-        train_dataloader, valid_dataloader = self.prepare_dataloaders()
+    def postprocess(self, data_path):
+        train_transforms, valid_transforms = self.data_transformer()
+        train_dataset, valid_dataset = self.prepare_datasets(train_transforms, valid_transforms, data_path)
+        train_dataloader, valid_dataloader = self.prepare_dataloaders(train_dataset, valid_dataset,
+                                                                      self.batch_size, self.num_workers)
         return train_dataloader, valid_dataloader
 
     def data_transformer(self):
