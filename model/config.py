@@ -13,4 +13,7 @@ class CFG:
     processed_data = root.joinpath('processed')
     logs = root.joinpath('logs')
 
+    batch_size = 32
+    num_workers = 4
+
     model_weights = checkpoints.joinpath('epoch=44-step=33750.ckpt')
