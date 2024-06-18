@@ -12,10 +12,10 @@ from preprocess.preprocess_config import CFG as preprocess_config
 
 class PneumoniaModelTrainer:
     def __init__(self):
-        self.checkpoints_path = CFG.checkpoints
-        self.logs_path = CFG.logs
         self.max_epochs = 50
         self.device = CFG.device
+        self.logs_path = CFG.logs
+        self.checkpoints_path = CFG.checkpoints
         self.preprocess_config = preprocess_config
 
     def setup_directories(self):
@@ -31,7 +31,7 @@ class PneumoniaModelTrainer:
         )
 
         return pl.Trainer(
-            accelerator='gpu',
+            accelerator=self.device,
             devices=1 if self.device == 'cuda' else 0,
             logger=TensorBoardLogger(save_dir=self.logs_path),
             log_every_n_steps=1,
@@ -46,20 +46,20 @@ class PneumoniaModelTrainer:
         print("Mean:", mean, "Std:", std)
         return mean, std
 
-    def train(self):
+    def train(self, data_dir):
         self.setup_directories()
         trainer = self.get_trainer()
         mean, std = self.preprocess_data()
-        train_loader, val_loader = self.prepare_data_loaders(mean=mean, std=std)
+        train_loader, val_loader = self.prepare_data_loaders(data_dir, mean=mean, std=std, )
 
         model = PneumoniaModel()
         trainer.fit(model=model, train_dataloaders=train_loader, val_dataloaders=val_loader)
 
     @staticmethod
-    def prepare_data_loaders(mean=0.5, std=0.5):
-        return DataLoaderPreparer(mean=mean, std=std).postprocess()
+    def prepare_data_loaders(data_dir, mean=0.5, std=0.5):
+        return DataLoaderPreparer(mean=mean, std=std).postprocess(data_dir)
 
 
 if __name__ == '__main__':
     _trainer = PneumoniaModelTrainer()
-    _trainer.train()
+    _trainer.train(CFG.processed_data)
