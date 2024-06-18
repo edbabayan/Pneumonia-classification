@@ -7,11 +7,9 @@ from config import CFG
 
 
 class DataLoaderPreparer:
-    def __init__(self, mean=0.5, std=0.5):
-        self.train_transform = None
-        self.valid_transform = None
-        self.train_dataset = None
-        self.valid_dataset = None
+    def __init__(self, mean=0.5, std=0.5, batch_size=16, num_workers=2):
+        self.batch_size = batch_size
+        self.num_workers = num_workers
         self.train_loader = None
         self.valid_loader = None
         self.processed_mean = mean
