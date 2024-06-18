@@ -52,10 +52,10 @@ class DataLoaderPreparer:
                                                            transform=valid_transform)
         return train_dataset, valid_dataset
 
-    def prepare_dataloaders(self, batch_size=64, num_workers=4):
-        self.train_loader = torch.utils.data.DataLoader(self.train_dataset, batch_size=batch_size,
+    def prepare_dataloaders(self, train_dataset, valid_dataset, batch_size, num_workers):
+        self.train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=batch_size,
                                                         shuffle=True, num_workers=num_workers)
-        self.valid_loader = torch.utils.data.DataLoader(self.valid_dataset, batch_size=batch_size,
+        self.valid_loader = torch.utils.data.DataLoader(valid_dataset, batch_size=batch_size,
                                                         shuffle=False, num_workers=num_workers)
         return self.train_loader, self.valid_loader
 
