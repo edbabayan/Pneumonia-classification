@@ -6,7 +6,7 @@ from model.config import CFG
 from model.dataloader import DataLoaderPreparer
 from model.pneumonia_model import PneumoniaModel
 
-model = PneumoniaModel.load_from_checkpoint(CFG.model_weights)
+model = PneumoniaModel.load_from_checkpoint(CFG.model_weights, strict=False)
 model.eval()
 _, val_dataset = DataLoaderPreparer().prepare_datasets()
 
